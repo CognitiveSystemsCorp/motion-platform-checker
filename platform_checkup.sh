@@ -1,8 +1,8 @@
 #!/bin/bash
-VERSION="1.0"
+VERSION="1.1"
 ###########################################
 #To run:
-# ./platform_checkup.sh 
+# ./platform_checkup.sh
 #or:
 # sh ./platform_checkup.sh
 #result file is "./platform_req_status.log"
@@ -20,17 +20,21 @@ echo "Script version: $VERSION" > $filename0
 echo "## https support " >> $filename0
 ##Check wget support https
 status=$( wget -qO /dev/null https://www.google.com && echo Yes || echo No )
-echo "wget support https:  $status" >> $filename0
+echo "wget support https by Google:  $status" >> $filename0
+status=$( wget -qO /dev/null https://www.baidu.com && echo Yes || echo No )
+echo "wget support https by Baidu:  $status" >> $filename0
 #check curl support https
 status=$( curl -sk https://www.google.com > /dev/null && echo Yes || echo No ) 
-echo "curl support https:  $status" >> $filename0
+echo "curl support https by Google:  $status" >> $filename0
+status=$( curl -sk https://www.baidu.com > /dev/null && echo Yes || echo No ) 
+echo "curl support https by Baidu:  $status" >> $filename0
 
 ### 1.list_fun_os_tools
 # list_fun_os_tools=( ifconfig wget curl which ps route netcat/nc date tar cat awk ls tail stat ping nvram ntpd)
 echo "## function_os_tools_general" >> $filename0
 count=1
 for item in  ifconfig wget curl which ps route nc date tar cat awk ls tail stat ping nvram ntpd ;
-    do  
+    do
         # status=$( type  "$item"  > /dev/null && echo yes || echo no )
         status=$( type  "$item"  2> /dev/null  )
         echo "$count $item $status" >> $filename0
@@ -39,22 +43,22 @@ for item in  ifconfig wget curl which ps route nc date tar cat awk ls tail stat 
 done
 
 ## 2.list_fun_os_Broadcom
-# list_fun_os_Broadcom=(wl brctl bcm_flasher bcm_bootstate)  
+# list_fun_os_Broadcom=(wl brctl bcm_flasher bcm_bootstate)
 echo "## function_os_Broadcom" >> $filename0
 count=1
 for item in  wl brctl bcm_flasher bcm_bootstate pidof cevent ;
-    do  
+    do
         status=$( type  "$item"  2> /dev/null )
         echo "$count $item $status" >> $filename0
         count=$(( $count + 1 ))
 done
 
-## 3.list_fun_os_cog 
+## 3.list_fun_os_cog
 # list_fun_os_cog=( find ssh md5sum perf)
 echo "## function_os_cognitive" >> $filename0
 count=1
-for item in  find ssh telnet md5sum perf ;
-    do  
+for item in  find ssh sshd dropbear telnet md5sum perf ;
+    do
         # f() { $item; }
         # status=$(fn_exists f && echo yes || echo no)
         status=$( type  "$item"    2> /dev/null )
@@ -84,7 +88,7 @@ echo "$count mosquitto $status" >> $filename0
 # list_file_system=(/tmp/dnsmasq.lease /proc/net/arp /proc/loadavg /proc/uptime /proc/meminfo /proc/cpuinfo)
 echo "## file_system_access" >> $filename0
 count=1
-for item in /tmp/dnsmasq.lease /proc/net/arp /proc/loadavg /proc/uptime /proc/meminfo /proc/cpuinfo; 
+for item in /tmp/dnsmasq.lease /proc/net/arp /proc/loadavg /proc/uptime /proc/meminfo /proc/cpuinfo;
     do
         status=$([[ -f $item ]] && echo yes || echo no)
         echo "$(($count)) $item $status" >> $filename0
