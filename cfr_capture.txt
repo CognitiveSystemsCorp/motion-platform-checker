@@ -1,0 +1,47 @@
+================================ QSDK 5/6
+
+# start CFR timer on radio
+iwpriv wifi0 cfr_timer 1
+
+# get client macs on VAP
+wlanconfig ath0 list sta
+
+# start CFR capture on VAP for client
+wlanconfig ath0 cfr start <client mac> 0 100 0
+
+# run dump tool
+cfrtool capture
+
+# check output size is not 0
+ls -l /tmp/cfr*
+
+================================ QSDK 10+
+
+# start CFR timer on radio
+cfg80211tool wifi0 cfr_timer 1
+
+# get client macs on VAP
+wlanconfig ath0 list sta
+
+# start CFR capture on VAP for client
+wlanconfig ath0 cfr start <client mac> 0 100 0
+
+# run dump tool
+cfr_test_app -i wifi0
+
+# check output size is not 0
+ls -l /tmp/cfr*
+
+================================ BCM
+
+# enable CFR capture on radio
+wl -i wl0 csimon enable
+
+# get client macs
+wl -i wl0 assoclist
+
+# start CFR capture for client
+wl -i wl0 csimon add <client mac> 100 enable
+
+# cfr dump tool not included in SDK, just make sure transfer count is not 0
+wl -i wl0 csimon state
