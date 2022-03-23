@@ -19,3 +19,7 @@ Submit the generated file to Cognitive Systems for validation of systems
 Make sure that the script will be executed in a writable directory.
 
 So the result file can be saved in current working directory.
+
+# Testing CFR Capture
+
+cfr_capture.txt contains instructions for testing CFR capture.
