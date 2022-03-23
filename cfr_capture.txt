@@ -1,3 +1,7 @@
+Test all wifi radios on device (replace wifi0/ath0/wl0).
+Each radio needs at least one client connected when being tested.
+Some clients may require manual pinging to produce CFR data.
+
 ================================ QSDK 5/6
 
 # start CFR timer on radio
